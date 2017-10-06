@@ -1,1 +1,3 @@
-# goose-cannon
+# Goose Cannon
+
+A cannon in the form of a robotic goose, powered by a Raspberry Pi with C.
