@@ -4,12 +4,23 @@ from PIL import Image
 import RPi.GPIO as GPIO
 from time import sleep
 
-SERVO = 12
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)		# Numbers GPIOs by physical location
-GPIO.setup(SERVO, GPIO.OUT)
-pwm = GPIO.PWM(SERVO, 50)
-pwm.start(7.5)
+GPIO.setmode(GPIO.BCM)		# Numbers GPIOs by physical location
+
+
+class Servo:
+	def __init__(self, PIN):
+		self.PIN = PIN
+		GPIO.setup(self.PIN, GPIO.OUT)
+		self.pwm = GPIO.PWM(self.PIN, 50)
+		self.pwm.start(5)
+		self.reset()
+
+	def rotate(self, angle):
+		self.pwm.changeDutyCycle((1/18 * (angle+90) + 2))
+
+	def reset(self):
+		self.rotate(0)
 	
 def destroy():
 	pwm.stop()
@@ -29,11 +40,14 @@ def destroy():
 ##	GPIO.output(LED2, OFF)
 
 def loop():
+	servoY = Servo(18)
+	servoX = Servo(17)
     while True:
-        pwm.ChangeDutyCycle(5)
-        sleep(1)
-        pwm.ChangeDutyCycle(7.5)
-        sleep(1)
+    	servoY.reset()
+    	sleep(1)
+    	servoY.rotate(90)
+    	sleep(1)
+    	servoY.rotate(-90)
 
 if __name__ == '__main__':		# Program start from here
 	try:
