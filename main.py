@@ -7,24 +7,18 @@ from time import sleep
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)		# Numbers GPIOs by physical location
 
-
-class Servo:
+class Servo():
 	def __init__(self, PIN):
 		self.PIN = PIN
 		GPIO.setup(self.PIN, GPIO.OUT)
 		self.pwm = GPIO.PWM(self.PIN, 50)
-		self.pwm.start(5)
-		self.reset()
-
+		self.pwm.start(7.5)
+		
 	def rotate(self, angle):
-		self.pwm.changeDutyCycle((1/18 * (angle+90) + 2))
-
-	def reset(self):
-		self.rotate(0)
-	
-def destroy():
-	pwm.stop()
-	GPIO.cleanup()			# Release resource
+		self.pwm.ChangeDutyCycle(0.053*angle + 2.2)
+		
+	def stop(self):
+		self.pwm.stop()
 
 ##def camera():
 ##	camera = picamera.PiCamera()
@@ -40,18 +34,16 @@ def destroy():
 ##	GPIO.output(LED2, OFF)
 
 def loop():
-	servoY = Servo(18)
-	servoX = Servo(17)
-    while True:
-    	servoY.reset()
-    	sleep(1)
-    	servoY.rotate(90)
-    	sleep(1)
-    	servoY.rotate(-90)
+	while True:
+		newAngle = input("angle: ")
+		servoY.rotate(newAngle)
+		
 
 if __name__ == '__main__':		# Program start from here
 	try:
+		servoY = Servo(18)
 		loop()
 	except KeyboardInterrupt:	# When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
-		destroy()
+		servoY.stop()
+		GPIO.cleanup()
 
