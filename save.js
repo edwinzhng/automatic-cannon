@@ -22,9 +22,9 @@ app.post('/', function(req, res, next) {
   console.log(req.body);
 
 	var base64 = req.body["content"];
-          fsPath.writeFile("img.jpeg", base64, "base64", function(err){
-              console.log("File saved");
-          });
+        fsPath.writeFile("img.jpeg", base64, "base64", function(err){
+            console.log("File saved");
+        });
 
 });
 
