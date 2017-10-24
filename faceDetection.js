@@ -23,49 +23,15 @@ request.get(url, function (error, response, body){
   if (!error && response.statusCode == 200) {
     // success
     var data = JSON.parse(body);
-    console.log(data);
+    console.log(data.photos[0].tags[0]);
 
-    // get the coordinates of the top of the mouth
-    var mouthX = data.photos[0].tags[0].mouth_center.x; 
-    var mouthY = data.photos[0].tags[0].mouth_center.y;
 
-    // get deviation from center of image
-    var deltaX = mouthX - img_center_x;
-    var deltaY = mouthY - img_center_y;
-
-    var dataForWrite = {
-      "deltaX": deltaX,
-      "deltaY": deltaY,
-      "x0": mouthX,
-      "x1": mouthY
-    }
+    var dataForWrite = data.photos[0].tags[0];
     
     fs.writeFile(outFile, JSON.stringify(dataForWrite), function (err) {
       if (err) return console.log(err);
          console.log("JSON saved to: " + outFile);
     });
-
-    // check left/right mouth position
-    if (Math.abs(deltaX) > x_variance){
-      if (deltaX > 0) { // the mouth is to the right in the image
-        console.log("Move the servo left");
-      } else { // the mouth is to the left in the image
-        console.log("Move the servo right");
-      }
-    } else {
-      console.log("X position is good");
-    }
-
-    // check up/down mouth position
-    if (Math.abs(deltaY) > y_variance) {
-     if (deltaY > 0) { // the mouth is too high in the image
-        console.log("Move the servo down");
-     } else { // the mouth is too low in the image
-        console.log("Move the servo up");
-     } 
-    } else {
-      console.log("Y position is good");
-    }
 
   } else { // error
     console.log(response.body);
