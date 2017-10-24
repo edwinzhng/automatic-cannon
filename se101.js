@@ -1,4 +1,7 @@
+const fs = require('fs');
 const request = require('request');
+
+const outFile = "coordinates.json";
 
 // api config details
 const api_key = "n3vg0dfc4j42o0ap4b54mm0msg";
@@ -19,15 +22,28 @@ url += "&urls=" + img_url;
 request.get(url, function (error, response, body){
   if (!error && response.statusCode == 200) {
     // success
-    console.log(body);
+    var data = JSON.parse(body);
+    console.log(data);
 
     // get the coordinates of the top of the mouth
-    var mouthX = body.tags.mouth_center.x; 
-    var mouthY = body.tags.mouth_center.y;
+    var mouthX = data.photos[0].tags[0].mouth_center.x; 
+    var mouthY = data.photos[0].tags[0].mouth_center.y;
 
     // get deviation from center of image
     var deltaX = mouthX - img_center_x;
     var deltaY = mouthY - img_center_y;
+
+    var dataForWrite = {
+      "deltaX": deltaX,
+      "deltaY": deltaY,
+      "x0": mouthX,
+      "x1": mouthY
+    }
+    
+    fs.writeFile(outFile, JSON.stringify(dataForWrite), function (err) {
+      if (err) return console.log(err);
+         console.log("JSON saved to: " + outFile);
+    });
 
     // check left/right mouth position
     if (Math.abs(deltaX) > x_variance){
