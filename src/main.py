@@ -9,9 +9,9 @@ def camera():
 	# img = Image.open('data.jpg')
 	# img.save('data.jpg')
 
-	with open("data.jpg", "rb") as image_file:
+	with open("../data/data.jpg", "rb") as image_file:
 		encoded_string = base64.b64encode(image_file.read())
-	
+
 	print("posting image...")
 	r = requests.post("http://18.221.15.32/save.php", data={'content': encoded_string})
 	print(r.status_code)
@@ -32,10 +32,10 @@ camera()
 # 		self.pwm = GPIO.PWM(self.PIN, 50)
 # 		self.pwm.start(7.5)
 # 		self.angle = 0
-		
+
 # 	def setAngle(self, angle):
 # 		self.pwm.ChangeDutyCycle(0.053*angle + 2.2)
-		
+
 # 	def stop(self):
 # 		self.pwm.stop()
 
@@ -51,7 +51,7 @@ camera()
 
 # 	with open("data.jpg", "rb") as image_file:
 # 		encoded_string = base64.b64encode(image_file.read())
-	
+
 # 	print("posting image...")
 # 	r = requests.post("http://18.221.15.32/save.php", data={'content': encoded_string})
 # 	print("image posted")
@@ -64,7 +64,7 @@ camera()
 # 		newAngle = input("angle: ")
 # 		servoY.setAngle(newAngle)
 
-		
+
 
 # if __name__ == '__main__':		# Program start from here
 # 	try:
@@ -73,4 +73,3 @@ camera()
 # 	except KeyboardInterrupt:	# When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
 # 		servoY.stop()
 # 		GPIO.cleanup()
-
