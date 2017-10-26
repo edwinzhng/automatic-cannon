@@ -6,8 +6,8 @@ import faceDetection as fd
 
 ratio = 760 # ratio needed to get horizontal distance
 average_width = 0.13 # average width of human head
-k = 30 # TODO need to experiment with different masses to find true k
-x = 0.3 # amount that the spring compresses
+k = 100 # TODO need to experiment with different masses to find true k
+x = 0.2 # amount that the spring compresses
 mass = 0.005 # mass of the projectile being fired
 viewport_angle = 10 # calculated viewport angle of camera
 height = 0.1 # distance from camera to ground
@@ -35,16 +35,15 @@ def calcAngle(dist_x, dist_y, mass, k, x):
     theta = 0
     eps = spring_potential(k, x)
     v_i = math.sqrt(2*eps/mass)
-    print(str(v_i) + ' vi')
+    print(str(v_i) + ' - vi')
     g = 9.81
     discriminant = (math.pow(v_i, 4)-(g*(g*dist_x*dist_x+2*dist_y*v_i*v_i)))
-    print(str(discriminant) + ' discriminant')
     if discriminant < 0:
         return False
     theta1 = math.atan((v_i*v_i + math.sqrt(discriminant)) / (g * x))*180/math.pi
     theta2 = math.atan((v_i*v_i - math.sqrt(discriminant)) / (g * x))*180/math.pi
-    print(str(theta1) + " theta1")
-    print(str(theta2) + " theta2")
+    print(str(theta1) + " - theta1")
+    print(str(theta2) + " - theta2")
     if theta1 > 0 and theta1 < 45:
         theta = theta1
     else:
@@ -55,9 +54,9 @@ def calcAngle(dist_x, dist_y, mass, k, x):
 
 def main():
     coordinates = fd.getFaceDimensions()
-    print(str(coordinates['width']) + ' width')
+    print(str(coordinates['width']) + ' - width')
     dist_x = calcDistX(coordinates, ratio, average_width)
-    print (str(dist_x) + ' horizontal distance')
+    print (str(dist_x) + ' - horizontal distance')
     dist_y = calcDistY(coordinates, dist_x)
     theta = calcAngle(dist_x, dist_y, mass, k, x)
     print theta
