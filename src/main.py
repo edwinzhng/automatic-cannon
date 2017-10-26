@@ -27,10 +27,10 @@ class Servo():
 		self.pwm = GPIO.PWM(self.PIN, 50)
 		self.pwm.start(7.5)
 		self.angle = 0
-		
+
 	def setAngle(self, angle):
 		self.pwm.ChangeDutyCycle(0.053*angle + 2.2)
-		
+
 	def stop(self):
 		self.pwm.stop()
 

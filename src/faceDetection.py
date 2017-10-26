@@ -9,7 +9,7 @@ def detectFace():
     api_key = "n3vg0dfc4j42o0ap4b54mm0msg"
     api_secret = "l20v0d9j4a7bnb7lqcqps7rddm"
 
-    img_url = "http://18.221.15.32/img.jpeg"
+    img_url = "http://18.221.15.32/data.jpg"
     url = "http://api.skybiometry.com/fc/faces/detect?api_key=" + api_key + "&api_secret=" + api_secret + "&urls=" + img_url
 
     r = requests.get(url)
