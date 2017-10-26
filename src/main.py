@@ -1,4 +1,5 @@
 from PIL import Image
+import picamera
 import requests
 import base64
 import RPi.GPIO as GPIO
@@ -10,13 +11,13 @@ GPIO.setmode(GPIO.BCM)
 def camera():
 	camera = picamera.PiCamera()
 	camera.resolution = (720, 720)
-	camera.capture('data.jpg')
+	camera.capture('../data/data.jpg')
 	camera.close()
 
 	with open("../data/data.jpg", "rb") as image_file:
 		encoded_string = base64.b64encode(image_file.read())
 
-	print("posting image...")
+	print("imaged captured, sending to server...")
 	r = requests.post("http://18.221.15.32/save.php", data={'content': encoded_string})
 	print(r.content)
 
@@ -39,7 +40,7 @@ class Servo():
 
 def loop():
 	while True:
-		newAngle = input("angle (-1 to take picture): ")
+		newAngle = input("enter angle (-1 to capture image): ")
 		if(newAngle == -1):
 			camera()
 		else:
