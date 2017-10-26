@@ -1,43 +1,46 @@
 import json
 import math
 
-import '../main.py' servo
-import '../faceDetection.py' as fd
-s
-focal_length = 2570
-average_width = 0.22
+import main
+import faceDetection as fd
 
-def parseJson():
-    data = fd.getFaceDimensions()
+ratio = 2570 # ratio needed to get horizontal distance
+average_width = 0.15 # average width of human head
+k = 30 # TODO need to experiment with different masses to find true k
+x = 0.3 # amount that the spring compresses
+mass = 0.005 # mass of the projectile being fired
+viewport_angle = 10 # calculated viewport angle of camera
+height = 0.1 # distance from camera to ground
 
-# calculates horizontal distance from camera based on focal length obtained from
+def spring_potential(k, x):
+    return 0.5*k*x*x
+
+# calculates horizontal distance from camera based on ratio obtained from
 # testing and using average width of a known object
-def calcDistX(coordinates, focal_length, average_width):
-    dist_x = (averageWidth * focal_length) / coordinates[0]) # horizontal distance = known width * focal length / pixel width
+def calcDistX(coordinates, ratio, average_width):
+    dist_x = (average_width * ratio) / coordinates['width']# horizontal distance = known width * ratio / pixel width
     return dist_x
 
-# calculates Ep of the spring using a k value determined through experimentation
-def springPotential(k, x):
-    potential = 0.5*k*x*x
-    return potential
-
-# calculate projectile launch time assuming no air resistance for now
-def calcTime(spring_potential, dist_x, mass):
-    v_initial = math.sqrt(2*spring_potential*weight)
-    time = distX
-    return time
-
 # returns vertical distance relative to cannon
-def calcDistY(top, bottom, viewport_angle):
-    # TODO calculate vertical distance
+def calcDistY(top, bottom, viewport_angle, height):
+
+    return dist_y
 
 # returns angle needed for the projectile to hit the target
-def calcAngle():
-    #TODO return the angle needed
+def calcAngle(dist_x, dist_y, mass):
+    spring_potential(k, x)
+    v_initial = math.sqrt(2*spring_potential*mass)
+
+    return angle
 
 def main():
-    coordinates = parseJson()
-    print(coordinates[0])
+    coordinates = fd.getFaceDimensions()            # first get coordinates of face from image
+    print(coordinates['width'])                     # calculate horizontal distance based on width of head
+    dist_x = calcDistX(coordinates, 2570, 0.22)
+    dist_y = calcDistY(coordinates, viewport_angle)
+    calcTime(spring_potential, dist_x, mass)
+    return calcAngle(dist_x, dist_y, time)
+
 
 if __name__ == '__main__':
     main()

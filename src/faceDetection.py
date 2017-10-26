@@ -11,12 +11,11 @@ def detectFace():
 
     img_url = "http://18.221.15.32/img.jpeg"
     url = "http://api.skybiometry.com/fc/faces/detect?api_key=" + api_key + "&api_secret=" + api_secret + "&urls=" + img_url
-    
+
     r = requests.get(url)
 
     data = json.loads(r.content)
     return (data[u'photos'][0][u'tags'][0])
-
 
 # returns {width, height, center: {x,y}} of face in pixels
 def getFaceDimensions():
@@ -29,4 +28,3 @@ def getFaceDimensions():
     center_y = (details[u'center'][u'y']/100.0)*img_height
 
     return {"width": width, "height": height, "center": {"x": center_x, "y": center_y}}
-
