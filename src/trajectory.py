@@ -4,6 +4,7 @@ import math
 # import main
 import faceDetection as fd
 
+img_width = 720 # img width in pixels
 ratio = 760 # ratio needed to get horizontal distance
 average_width = 0.13 # average width of human head
 k = 100 # TODO need to experiment with different masses to find true k
@@ -52,6 +53,11 @@ def calcAngle(dist_x, dist_y, mass, k, x):
             theta = -theta
     return theta
 
+# returns how far from the center the face is (horizontally)
+# positive value means too far right, negative means too far left
+def calcOffsetX(coordinates):
+    return coordinates['center']['x'] - img_width
+
 def main():
     coordinates = fd.getFaceDimensions()
     print(str(coordinates['width']) + ' - width')
@@ -59,6 +65,7 @@ def main():
     print (str(dist_x) + ' - horizontal distance')
     dist_y = calcDistY(coordinates, dist_x)
     theta = calcAngle(dist_x, dist_y, mass, k, x)
+    offset_x = calcOffsetX(coordinates)
     print theta
     return theta
 
