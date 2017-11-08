@@ -20,7 +20,7 @@ def camera():
 
 	print("imaged captured, sending to server...")
 	r = requests.post("http://52.14.199.236/save.php", data={'content': encoded_string})
-	print(r.status_code)
+	print(r.content)
 	print("calculating trajectory ...")
 	return round(calcFinalAngle())
 
@@ -47,7 +47,7 @@ def loop():
 		if(newAngle == -1):
 			angle = camera()
 			print("")
-			print("angle: " + angle)
+			print("angle: ", angle)
 			servoY.setAngle(angle)
 			print("target locked")
 		else:
