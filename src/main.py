@@ -4,6 +4,7 @@ import requests
 import base64
 import RPi.GPIO as GPIO
 from time import sleep
+from trajectory import calcFinalAngle
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -18,8 +19,10 @@ def camera():
 		encoded_string = base64.b64encode(image_file.read())
 
 	print("imaged captured, sending to server...")
-	r = requests.post("http://18.221.15.32/save.php", data={'content': encoded_string})
-	print(r.content)
+	r = requests.post("http://52.14.199.236/save.php", data={'content': encoded_string})
+	print(r.status_code)
+	print("calculating trajectory ...")
+	return round(calcFinalAngle())
 
 class Servo():
 	def __init__(self, PIN):
@@ -40,9 +43,13 @@ class Servo():
 
 def loop():
 	while True:
-		newAngle = input("enter angle (-1 to capture image): ")
+		newAngle = input("enter angle (-1 to target): ")
 		if(newAngle == -1):
-			camera()
+			angle = camera()
+			print("")
+			print("angle: " + angle)
+			servoY.setAngle(angle)
+			print("target locked")
 		else:
 			servoY.setAngle(newAngle)
 

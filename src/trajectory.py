@@ -58,16 +58,23 @@ def calcAngle(dist_x, dist_y, mass, k, x):
 def calcOffsetX(coordinates):
     return coordinates['center']['x'] - img_width
 
-def main():
+def calcFinalAngle():
     coordinates = fd.getFaceDimensions()
-    print(str(coordinates['width']) + ' - width')
     dist_x = calcDistX(coordinates, ratio, average_width)
-    print (str(dist_x) + ' - horizontal distance')
     dist_y = calcDistY(coordinates, dist_x)
     theta = calcAngle(dist_x, dist_y, mass, k, x)
-    offset_x = calcOffsetX(coordinates)
-    print theta
     return theta
 
-if __name__ == '__main__':
-    main()
+# def main():
+#     coordinates = fd.getFaceDimensions()
+#     print(str(coordinates['width']) + ' - width')
+#     dist_x = calcDistX(coordinates, ratio, average_width)
+#     print (str(dist_x) + ' - horizontal distance')
+#     dist_y = calcDistY(coordinates, dist_x)
+#     theta = calcAngle(dist_x, dist_y, mass, k, x)
+#     offset_x = calcOffsetX(coordinates)
+#     print theta
+#     return theta
+
+# if __name__ == '__main__':
+#     main()
