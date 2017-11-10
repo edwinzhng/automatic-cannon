@@ -21,8 +21,8 @@ def camera():
 	print("imaged captured, sending to server...")
 	r = requests.post("http://52.14.199.236/save.php", data={'content': encoded_string})
 	print(r.content)
-	print("calculating trajectory ...")
-	return round(calcFinalAngle())
+	print("calculating trajectory...")
+	return calcFinalAngles()
 
 class Servo():
 	def __init__(self, PIN):
@@ -39,17 +39,20 @@ class Servo():
 		self.pwm.stop()
 
 	def adjust(self, y):
-		self.adjustAngle(angle + y)
+		self.setAngle(angle + y)
 
 def loop():
 	while True:
-		newAngle = input("enter angle (-1 to target): ")
-		if(newAngle == -1):
-			angle = camera()
+		new_angle = input("enter angle (-1 to target, -2 to fire): ")
+		if(new_angle == -1):
+			angles = camera()
 			print("")
-			print("angle: ", angle)
-			servoY.setAngle(angle)
+			print("angleX: ", angles[0])
+			print("angleY: ", angles[1])
+			servoY.setAngle(angle[0])
 			print("target locked")
+		elif(new_angle == -2):
+			servoX.setAngle(0)
 		else:
 			servoY.setAngle(newAngle)
 
@@ -57,6 +60,7 @@ def loop():
 if __name__ == '__main__':		# Program start from here
 	try:
 		servoY = Servo(18)
+		servoT = Servo(17)
 		loop()
 	except KeyboardInterrupt:	# When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
 		servoY.stop()

@@ -75,7 +75,7 @@ def calcFinalAngles():
     print str(offsetX) + " offsetx" 
     theta_x = calcAngleX(dist_x, offsetX)
     theta_y = calcAngleY(dist_x, dist_y, mass, k, x)
-    return [theta_x, theta_y]
+    return [round(theta_x), round(theta_y)]
 
 def test():
     print str(calcFinalAngles()[0]) + " - thetax"
