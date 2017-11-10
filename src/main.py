@@ -21,8 +21,8 @@ def camera():
 	print("imaged captured, sending to server...")
 	r = requests.post("http://52.14.199.236/save.php", data={'content': encoded_string})
 	print(r.content)
-	print("calculating trajectory ...")
-	return round(calcFinalAngle())
+	print("calculating trajectory...")
+	return calcFinalAngles()
 
 class Servo():
 	def __init__(self, PIN):
@@ -45,10 +45,11 @@ def loop():
 	while True:
 		new_angle = input("enter angle (-1 to target, -2 to fire): ")
 		if(new_angle == -1):
-			angle = camera()
+			angles = camera()
 			print("")
-			print("angle: ", angle)
-			servoY.setAngle(angle)
+			print("angleX: ", angles[0])
+			print("angleY: ", angles[1])
+			servoY.setAngle(angle[0])
 			print("target locked")
 		elif(new_angle == -2):
 			servoX.setAngle(0)

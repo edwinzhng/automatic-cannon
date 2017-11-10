@@ -69,7 +69,7 @@ def calcFinalAngles():
     dist_y = calcDistY(coordinates, dist_x)
     theta_x = calcAngleX(dist_x)
     theta_y = calcAngleY(dist_x, dist_y, mass, k, x)
-    return [theta_x, theta_y]
+    return [round(theta_x), round(theta_y)]
 
 # def main():
 #     coordinates = fd.getFaceDimensions()
