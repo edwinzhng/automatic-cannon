@@ -1,4 +1,5 @@
 from PIL import Image
+import cv2
 import picamera
 import requests
 import base64
@@ -41,10 +42,12 @@ class Servo():
 	def adjust(self, y):
 		self.setAngle(angle + y)
 
-	def.lock(self):
+	def lock(self):
 		self.setAngle(0)
 
-	def.unlock(self).setAngle(180)
+	def unlock(self):
+		self.setAngle(180)
+
 
 def loop():
 	while True:
@@ -62,15 +65,16 @@ def loop():
 		elif(new_angle == -3):
 			while True:
 				key = cv2.waitKey(1) & 0xFF
-			    if key == 0:
-			        print "up"
-			    elif key == 1:
-			        print "down"
-			    elif key == 2:
-			        print "left"
-			    elif key == 3:
-			        print "right"
-			    print key
+				if key == 0:
+					print "up"
+				elif key == 1:
+					print "down"
+				elif key == 2:
+					print "left"
+				elif key == 3:
+					print "right"
+				else:
+					print key
 		else:
 			servoY.setAngle(new_angle)
 
