@@ -62,9 +62,9 @@ def loop():
 			servoY.setAngle(angle[0])
 			print("target locked")
 		elif(new_angle == -2):
-			if(lock)
+			if(lock):
 				servoT.lock()
-			else
+			else:
 				servoT.unlock()
 		elif(new_angle == -3):
 			print("press any key to exit")
