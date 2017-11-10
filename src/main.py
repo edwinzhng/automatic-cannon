@@ -41,9 +41,14 @@ class Servo():
 	def adjust(self, y):
 		self.setAngle(angle + y)
 
+	def.lock(self):
+		self.setAngle(0)
+
+	def.unlock(self).setAngle(180)
+
 def loop():
 	while True:
-		new_angle = input("enter angle (-1 to target, -2 to fire): ")
+		new_angle = input("enter angle (-1 to auto target, -2 to fire, -3 to control): ")
 		if(new_angle == -1):
 			angles = camera()
 			print("")
@@ -53,6 +58,19 @@ def loop():
 			print("target locked")
 		elif(new_angle == -2):
 			servoT.setAngle(0)
+			servoT.lock()
+		elif(new_angle == -3):
+			while True:
+				key = cv2.waitKey(1) & 0xFF
+			    if key == 0:
+			        print "up"
+			    elif key == 1:
+			        print "down"
+			    elif key == 2:
+			        print "left"
+			    elif key == 3:
+			        print "right"
+			    print key
 		else:
 			servoY.setAngle(new_angle)
 
@@ -61,6 +79,7 @@ if __name__ == '__main__':		# Program start from here
 	try:
 		servoY = Servo(18)
 		servoT = Servo(17)
+		servoX = Servo(23)
 		loop()
 	except KeyboardInterrupt:	# When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
 		servoY.stop()
