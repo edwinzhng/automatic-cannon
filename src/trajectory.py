@@ -32,7 +32,7 @@ def calcDistY(coordinates, dist_x):
 
 # returns angle needed for the projectile to hit the target using
 # kinematics, trigonometry, and projectile motion formulas
-def calcAngle(dist_x, dist_y, mass, k, x):
+def calcAngleY(dist_x, dist_y, mass, k, x):
     theta = 0
     eps = spring_potential(k, x)
     v_i = math.sqrt(2*eps/mass)
@@ -56,14 +56,20 @@ def calcAngle(dist_x, dist_y, mass, k, x):
 # returns how far from the center the face is (horizontally)
 # positive value means too far right, negative means too far left
 def calcOffsetX(coordinates):
-    return coordinates['center']['x'] - img_width
+    return (coordinates['center']['x'] - img_width)
 
-def calcFinalAngle():
+def calcAngleX(dist_x):
+    offset = calcOffsetX(coordinates)
+    return math.atan(offset/dist_x)*180/math.pi 
+
+# Changed function name and return type
+def calcFinalAngles():
     coordinates = fd.getFaceDimensions()
     dist_x = calcDistX(coordinates, ratio, average_width)
     dist_y = calcDistY(coordinates, dist_x)
-    theta = calcAngle(dist_x, dist_y, mass, k, x)
-    return theta
+    theta_x = calcAngleX(dist_x)
+    theta_y = calcAngleY(dist_x, dist_y, mass, k, x)
+    return [theta_x, theta_y]
 
 # def main():
 #     coordinates = fd.getFaceDimensions()
