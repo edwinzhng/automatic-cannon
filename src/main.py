@@ -39,17 +39,19 @@ class Servo():
 		self.pwm.stop()
 
 	def adjust(self, y):
-		self.adjustAngle(angle + y)
+		self.setAngle(angle + y)
 
 def loop():
 	while True:
-		newAngle = input("enter angle (-1 to target): ")
-		if(newAngle == -1):
+		new_angle = input("enter angle (-1 to target, -2 to fire): ")
+		if(new_angle == -1):
 			angle = camera()
 			print("")
 			print("angle: ", angle)
 			servoY.setAngle(angle)
 			print("target locked")
+		elif(new_angle == -2):
+			servoX.setAngle(0)
 		else:
 			servoY.setAngle(newAngle)
 
@@ -57,6 +59,7 @@ def loop():
 if __name__ == '__main__':		# Program start from here
 	try:
 		servoY = Servo(18)
+		servoT = Servo(17)
 		loop()
 	except KeyboardInterrupt:	# When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
 		servoY.stop()
