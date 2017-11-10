@@ -4,7 +4,7 @@ import requests
 import base64
 import RPi.GPIO as GPIO
 from time import sleep
-from trajectory import calcFinalAngle
+from trajectory import calcFinalAngles
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -52,9 +52,9 @@ def loop():
 			servoY.setAngle(angle[0])
 			print("target locked")
 		elif(new_angle == -2):
-			servoX.setAngle(0)
+			servoT.setAngle(0)
 		else:
-			servoY.setAngle(newAngle)
+			servoY.setAngle(new_angle)
 
 
 if __name__ == '__main__':		# Program start from here
