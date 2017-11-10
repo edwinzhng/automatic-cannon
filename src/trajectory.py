@@ -56,20 +56,33 @@ def calcAngleY(dist_x, dist_y, mass, k, x):
 # returns how far from the center the face is (horizontally)
 # positive value means too far right, negative means too far left
 def calcOffsetX(coordinates):
-    return (coordinates['center']['x'] - img_width)
+    metersPerPixel = average_width / coordinates['width']
+    return (coordinates['center']['x'] - img_width/2.0) * metersPerPixel
 
-def calcAngleX(dist_x):
-    offset = calcOffsetX(coordinates)
-    return math.atan(offset/dist_x)*180/math.pi 
+# return the angle needed to move horizontally, assuming 0 is 
+# when the cannon is horizontally facing left and rotates clockwise
+def calcAngleX(dist_x, offsetX):
+    angle_from_center = math.atan(-offsetX/dist_x)*180/math.pi 
+    return 90 + angle_from_center
 
 # Changed function name and return type
 def calcFinalAngles():
     coordinates = fd.getFaceDimensions()
     dist_x = calcDistX(coordinates, ratio, average_width)
     dist_y = calcDistY(coordinates, dist_x)
-    theta_x = calcAngleX(dist_x)
+    offsetX = calcOffsetX(coordinates)
+    print str(dist_x) + " dist_x" 
+    print str(offsetX) + " offsetx" 
+    theta_x = calcAngleX(dist_x, offsetX)
     theta_y = calcAngleY(dist_x, dist_y, mass, k, x)
     return [theta_x, theta_y]
+
+def test():
+    print str(calcFinalAngles()[0]) + " - thetax"
+
+test()
+
+
 
 # def main():
 #     coordinates = fd.getFaceDimensions()
@@ -77,9 +90,8 @@ def calcFinalAngles():
 #     dist_x = calcDistX(coordinates, ratio, average_width)
 #     print (str(dist_x) + ' - horizontal distance')
 #     dist_y = calcDistY(coordinates, dist_x)
-#     theta = calcAngle(dist_x, dist_y, mass, k, x)
-#     offset_x = calcOffsetX(coordinates)
-#     print theta
+#     theta = calcFinalAngles()
+#     print theta[0], theta[1]
 #     return theta
 
 # if __name__ == '__main__':
