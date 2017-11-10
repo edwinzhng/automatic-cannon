@@ -34,13 +34,14 @@ class Servo():
 		self.angle = 0
 
 	def setAngle(self, angle):
-		self.pwm.ChangeDutyCycle(0.053*angle + 2.2)
+		self.angle = 0.053*angle + 2.2
+		self.pwm.ChangeDutyCycle(self.angle)
+
+	def adjustAngle(self, angle):
+		self.setAngle(self.angle + angle)
 
 	def stop(self):
 		self.pwm.stop()
-
-	def adjust(self, y):
-		self.setAngle(angle + y)
 
 	def lock(self):
 		self.setAngle(0)
@@ -50,6 +51,7 @@ class Servo():
 
 
 def loop():
+	lock = False
 	while True:
 		new_angle = input("enter angle (-1 to auto target, -2 to fire, -3 to control): ")
 		if(new_angle == -1):
@@ -60,21 +62,28 @@ def loop():
 			servoY.setAngle(angle[0])
 			print("target locked")
 		elif(new_angle == -2):
-			servoT.setAngle(0)
-			servoT.lock()
+			if(lock)
+				servoT.lock()
+			else
+				servoT.unlock()
 		elif(new_angle == -3):
+			print("press any key to exit")
 			while True:
 				key = cv2.waitKey(1) & 0xFF
 				if key == 0:
 					print "up"
+					servoY.adjustAngle(10)
 				elif key == 1:
 					print "down"
+					servoY.adjustAngle(-10)
 				elif key == 2:
 					print "left"
+					servoX.adjustAngle(-10)
 				elif key == 3:
 					print "right"
-				else:
-					print key
+					servoY.adjustAngle(10)
+				elif key != 255:
+					break
 		else:
 			servoY.setAngle(new_angle)
 
