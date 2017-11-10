@@ -53,37 +53,25 @@ class Servo():
 def loop():
 	lock = False
 	while True:
-		new_angle = input("enter angle (-1 to auto target, -2 to fire, -3 to control): ")
+		new_angle = input("enter angle (-1 to auto target, -2 to lock/fire, -3 to control servoX): ")
 		if(new_angle == -1):
 			angles = camera()
 			print("")
 			print("angleX: ", angles[0])
 			print("angleY: ", angles[1])
 			servoY.setAngle(angle[0])
+			servoX.setAngle(angle[1])
 			print("target locked")
 		elif(new_angle == -2):
 			if(lock):
 				servoT.lock()
+				print("locked")
 			else:
 				servoT.unlock()
+				print("unlocked")
+			lock = !lock
 		elif(new_angle == -3):
-			print("press any key to exit")
-			while True:
-				key = cv2.waitKey(1) & 0xFF
-				if key == 0:
-					print "up"
-					servoY.adjustAngle(10)
-				elif key == 1:
-					print "down"
-					servoY.adjustAngle(-10)
-				elif key == 2:
-					print "left"
-					servoX.adjustAngle(-10)
-				elif key == 3:
-					print "right"
-					servoY.adjustAngle(10)
-				elif key != 255:
-					break
+			servoX.setAngle(input("servoX angle: "))
 		else:
 			servoY.setAngle(new_angle)
 

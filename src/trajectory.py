@@ -71,18 +71,11 @@ def calcFinalAngles():
     dist_x = calcDistX(coordinates, ratio, average_width)
     dist_y = calcDistY(coordinates, dist_x)
     offsetX = calcOffsetX(coordinates)
-    print str(dist_x) + " dist_x" 
-    print str(offsetX) + " offsetx" 
+    #print str(dist_x) + " dist_x" 
+    #print str(offsetX) + " offsetx" 
     theta_x = calcAngleX(dist_x, offsetX)
     theta_y = calcAngleY(dist_x, dist_y, mass, k, x)
     return [round(theta_x), round(theta_y)]
-
-def test():
-    print str(calcFinalAngles()[0]) + " - thetax"
-
-test()
-
-
 
 # def main():
 #     coordinates = fd.getFaceDimensions()
