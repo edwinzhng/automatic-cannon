@@ -28,3 +28,4 @@ def getFaceDimensions():
     center_y = (details[u'center'][u'y']/100.0)*img_height
 
     return {"width": width, "height": height, "center": {"x": center_x, "y": center_y}}
+
