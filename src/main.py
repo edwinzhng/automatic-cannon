@@ -59,8 +59,8 @@ def loop():
 			print("")
 			print("angleX: ", angles[0])
 			print("angleY: ", angles[1])
-			servoY.setAngle(angle[0])
-			servoX.setAngle(angle[1])
+			servoY.setAngle(angles[0])
+			servoX.setAngle(angles[1])
 			print("target locked")
 		elif(new_angle == -2):
 			if(lock):
@@ -69,7 +69,7 @@ def loop():
 			else:
 				servoT.unlock()
 				print("unlocked")
-			lock = !lock
+			lock = not lock
 		elif(new_angle == -3):
 			servoX.setAngle(input("servoX angle: "))
 		else:
@@ -78,9 +78,9 @@ def loop():
 
 if __name__ == '__main__':		# Program start from here
 	try:
-		servoY = Servo(18)
+		servoX = Servo(18)
 		servoT = Servo(17)
-		servoX = Servo(23)
+		servoY = Servo(23)
 		loop()
 	except KeyboardInterrupt:	# When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
 		servoY.stop()
