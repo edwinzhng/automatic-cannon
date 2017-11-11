@@ -1,10 +1,11 @@
 from PIL import Image
+import cv2
 import picamera
 import requests
 import base64
 import RPi.GPIO as GPIO
 from time import sleep
-from trajectory import calcFinalAngle
+from trajectory import calcFinalAngles
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -33,34 +34,53 @@ class Servo():
 		self.angle = 0
 
 	def setAngle(self, angle):
-		self.pwm.ChangeDutyCycle(0.053*angle + 2.2)
+		self.angle = 0.053*angle + 2.2
+		self.pwm.ChangeDutyCycle(self.angle)
+
+	def adjustAngle(self, angle):
+		self.setAngle(self.angle + angle)
 
 	def stop(self):
 		self.pwm.stop()
 
-	def adjust(self, y):
-		self.setAngle(angle + y)
+	def lock(self):
+		self.setAngle(0)
+
+	def unlock(self):
+		self.setAngle(180)
+
 
 def loop():
+	lock = False
 	while True:
-		new_angle = input("enter angle (-1 to target, -2 to fire): ")
+		new_angle = input("enter angle (-1 to auto target, -2 to lock/fire, -3 to control servoX): ")
 		if(new_angle == -1):
 			angles = camera()
 			print("")
 			print("angleX: ", angles[0])
 			print("angleY: ", angles[1])
-			servoY.setAngle(angle[0])
+			servoY.setAngle(angles[0])
+			servoX.setAngle(angles[1])
 			print("target locked")
 		elif(new_angle == -2):
-			servoX.setAngle(0)
+			if(lock):
+				servoT.lock()
+				print("locked")
+			else:
+				servoT.unlock()
+				print("unlocked")
+			lock = not lock
+		elif(new_angle == -3):
+			servoX.setAngle(input("servoX angle: "))
 		else:
-			servoY.setAngle(newAngle)
+			servoY.setAngle(new_angle)
 
 
 if __name__ == '__main__':		# Program start from here
 	try:
-		servoY = Servo(18)
+		servoX = Servo(18)
 		servoT = Servo(17)
+		servoY = Servo(23)
 		loop()
 	except KeyboardInterrupt:	# When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
 		servoY.stop()
