@@ -1,7 +1,5 @@
 import json
 import math
-
-# import main
 import faceDetection as fd
 
 img_width = 720 # in pixels
@@ -73,8 +71,6 @@ def calcFinalAngles():
     dist_x = calcDistX(coordinates, ratio, average_width)
     dist_y = calcDistY(coordinates, dist_x, average_width)
     offsetX = calcOffsetX(coordinates)
-    #print str(dist_x) + " dist_x"
-    #print str(offsetX) + " offsetx"
     theta_x = calcAngleX(dist_x, offsetX)
     theta_y = calcAngleY(dist_x, dist_y, mass, k, x)
     return [round(theta_x), round(theta_y)]
