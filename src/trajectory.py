@@ -77,16 +77,16 @@ def calcFinalAngles():
 
 print calcFinalAngles()[0]
 # for testing
-# def main():
-#     coordinates = fd.getFaceDimensions()
-#     print(str(coordinates['width']) + ' - width')
-#     dist_x = calcDistX(coordinates, ratio, average_width)
-#     print (str(dist_x) + ' - horizontal distance')
-#     dist_y = calcDistY(coordinates, dist_x, average_width)
-#     print (str(dist_y) + ' - vertical distance')
-#     theta = calcFinalAngles()
-#     print theta[0], theta[1]
-#     return theta
+'''def main():
+    coordinates = fd.getFaceDimensions()
+    print(str(coordinates['width']) + ' - width')
+    dist_x = calcDistX(coordinates, ratio, average_width)
+    print (str(dist_x) + ' - horizontal distance')
+    dist_y = calcDistY(coordinates, dist_x, average_width)
+    print (str(dist_y) + ' - vertical distance')
+    theta = calcFinalAngles()
+    print theta[0], theta[1]
+    return theta
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()'''
