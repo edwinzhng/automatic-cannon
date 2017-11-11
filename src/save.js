@@ -22,7 +22,7 @@ app.post('/', function(req, res, next) {
   console.log(req.body);
 
 	var base64 = req.body["content"];
-        fsPath.writeFile("img.jpeg", base64, "base64", function(err){
+        fsPath.writeFile("data.jpg", base64, "base64", function(err){
             console.log("File saved");
         });
 
@@ -31,6 +31,4 @@ app.post('/', function(req, res, next) {
 var server = app.listen(8081, function() {
     var host = server.address().address;
     var port = server.address().port;
-
-    console.log("Example app listening at http://%s:%s", host, port)
 });

@@ -4,14 +4,15 @@ import math
 # import main
 import faceDetection as fd
 
-img_width = 720 # img width in pixels
+img_width = 720 # in pixels
+img_height = 720
 ratio = 760 # ratio needed to get horizontal distance
 average_width = 0.13 # average width of human head
-k = 100 # TODO need to experiment with different masses to find true k
-x = 0.2 # amount that the spring compresses
+k = 20 # TODO need to experiment with different masses to find true k
+x = 0.1 # amount that the spring compresses
 mass = 0.005 # mass of the projectile being fired
 viewport_angle = 10 # calculated viewport angle of camera
-height = 0.1 # distance from camera to ground
+angle = 0 # TODO pass angle through from main
 
 def spring_potential(k, x):
     return 0.5*k*x*x
@@ -19,15 +20,14 @@ def spring_potential(k, x):
 # calculates horizontal distance from camera based on ratio obtained from
 # testing and using average width of a known object
 def calcDistX(coordinates, ratio, average_width):
-    dist_x = (average_width * ratio) / coordinates['width']# horizontal distance = known width * ratio / pixel width
+    dist_x = (average_width * ratio) / coordinates['width'] # horizontal distance = known width * ratio / pixel width
     return dist_x
 
 # returns vertical distance relative to cannon
-def calcDistY(coordinates, dist_x):
-    # TODO return vertical distance somehow using the viewport angle, dist_x and
-    # distance from the center of the face to the floor
-    # (need to work out how to determine where the floor is)
-    dist_y = 0.4
+# TODO pass in angle
+def calcDistY(coordinates, dist_x, average_width):
+    dist_y = math.sin(angle) * dist_x; # calculate vertical height from center of screen
+    dist_y += ((img_height / 2) - (coordinates['center']['y'] - 50)) / ratio # account for vertical distance from center of screen
     return dist_y
 
 # returns angle needed for the projectile to hit the target using
@@ -51,6 +51,8 @@ def calcAngleY(dist_x, dist_y, mass, k, x):
         theta = theta2
         if theta2 < 0:
             theta = -theta
+        if theta > 45:
+            theta = 90 - theta
     return theta
 
 # returns how far from the center the face is (horizontally)
@@ -59,33 +61,35 @@ def calcOffsetX(coordinates):
     metersPerPixel = average_width / coordinates['width']
     return (coordinates['center']['x'] - img_width/2.0) * metersPerPixel
 
-# return the angle needed to move horizontally, assuming 0 is 
+# return the angle needed to move horizontally, assuming 0 is
 # when the cannon is horizontally facing left and rotates clockwise
 def calcAngleX(dist_x, offsetX):
-    angle_from_center = math.atan(-offsetX/dist_x)*180/math.pi 
+    angle_from_center = math.atan(-offsetX/dist_x)*180/math.pi
     return 90 + angle_from_center
 
 # Changed function name and return type
 def calcFinalAngles():
     coordinates = fd.getFaceDimensions()
     dist_x = calcDistX(coordinates, ratio, average_width)
-    dist_y = calcDistY(coordinates, dist_x)
+    dist_y = calcDistY(coordinates, dist_x, average_width)
     offsetX = calcOffsetX(coordinates)
-    #print str(dist_x) + " dist_x" 
-    #print str(offsetX) + " offsetx" 
+    #print str(dist_x) + " dist_x"
+    #print str(offsetX) + " offsetx"
     theta_x = calcAngleX(dist_x, offsetX)
     theta_y = calcAngleY(dist_x, dist_y, mass, k, x)
     return [round(theta_x), round(theta_y)]
 
-# def main():
-#     coordinates = fd.getFaceDimensions()
-#     print(str(coordinates['width']) + ' - width')
-#     dist_x = calcDistX(coordinates, ratio, average_width)
-#     print (str(dist_x) + ' - horizontal distance')
-#     dist_y = calcDistY(coordinates, dist_x)
-#     theta = calcFinalAngles()
-#     print theta[0], theta[1]
-#     return theta
+# for testing
+def main():
+    coordinates = fd.getFaceDimensions()
+    print(str(coordinates['width']) + ' - width')
+    dist_x = calcDistX(coordinates, ratio, average_width)
+    print (str(dist_x) + ' - horizontal distance')
+    dist_y = calcDistY(coordinates, dist_x, average_width)
+    print (str(dist_y) + ' - vertical distance')
+    theta = calcFinalAngles()
+    print theta[0], theta[1]
+    return theta
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
