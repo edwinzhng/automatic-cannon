@@ -75,6 +75,7 @@ def calcFinalAngles():
     theta_y = calcAngleY(dist_x, dist_y, mass, k, x)
     return [round(theta_x), round(theta_y)]
 
+print calcFinalAngles()[0]
 # for testing
 # def main():
 #     coordinates = fd.getFaceDimensions()

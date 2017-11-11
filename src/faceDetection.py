@@ -11,15 +11,16 @@ def detectFace():
     api_secret = "l20v0d9j4a7bnb7lqcqps7rddm"
 
     img_url = "http://52.14.199.236/data.jpg"
-    url = "http://api.skybiometry.com/fc/faces/recognize?api_key=" + api_key + "&api_secret=" + api_secret + "&urls=" + img_url + "&uids=rollen@se101,derek@se101"
-
+    url = "http://api.skybiometry.com/fc/faces/recognize?namespaces=se101&api_key=" + api_key + "&api_secret=" + api_secret + "&urls=" + img_url + "&uids=rollen@se101,derek@se101"
     r = requests.get(url)
     data = json.loads(r.content)
     user = data[u'photos'][0][u'tags'][0][u'uids'][0][u'uid']
     confidence =  data[u'photos'][0][u'tags'][0][u'uids'][0][u'confidence']
     if user == u'rollen@se101':
         name = "Rollen"
-    os.system("say Target Identified, " + name + ". Confidence " + str(confidence))
+    elif user == u'derek@se101':
+        name = "Derek"
+    os.system("say Target Identified, with " + str(confidence) + " percent accuracy. Hello, "  + name)
     return (data[u'photos'][0][u'tags'][0])
 
 # returns {width, height, center: {x,y}} of face in pixels
