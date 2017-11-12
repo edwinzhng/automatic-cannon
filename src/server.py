@@ -1,18 +1,34 @@
 import socket
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = socket.gethostname()
-port = 12345
-s.bind((host, port))
+def startServer():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    host = socket.gethostname()
+    port = 12345
+    s.bind((host, port))
 
-s.listen(5)
-c, addr = s.accept()
-print ('Got connection from',addr)
-c.send('Send me some data!')
+    s.listen(5)
+    c, addr = s.accept()
+    print ("Got connection from", addr)
 
-while True:
-    data = c.recv(port)
-    print data
-    c.send("Recieved: " + data)
+    while True:
+        data = c.recv(port)
+        # TODO move servo with this code
+        if data == "down":
+            c.send("Moving servoY " + data)
+        elif data == "up":
+            c.send("Moving servoY " + data)
+        elif data == "left":
+            c.send("Moving servoX " + data)
+        elif data == "right":
+            c.send("Moving servoX " + data)
+        elif data == "fire":
+            c.send("Firing now!")
+        elif data == "esc":
+            c.send("Closing server, goodbye.")
+            print("Exiting manual control")
+            break;
 
-s.close()
+    s.close()
+
+if __name__ == '__main__':
+    startServer()
