@@ -61,8 +61,8 @@ def loop():
 			print("")
 			print("angleX: ", angles[0])
 			print("angleY: ", angles[1])
-			servoY.setAngle(angles[0])
-			servoX.setAngle(angles[1])
+			servoX.setAngle(angles[0])
+			servoY.setAngle(angles[1])
 			print("target locked")
 		elif(new_angle == -2):
 			if(lock):
