@@ -6,53 +6,65 @@ import (
 	"github.com/eiannone/keyboard"
 )
 
+// error check
+func CheckError(err error) bool {
+	if err != nil {
+		fmt.Println("Error: ", err)
+		return true;
+	}
+	return false;
+}
+
 func main() {
-	// connect to this socket
-	conn, _ := net.Dial("tcp", "EDWIN-XPS15:12345")
+	// connect to this address
+	addr := "EDWIN-XPS15:12345"
+	conn, _ := net.Dial("tcp", addr)
 	buf2 := make([]byte, 1024)
 	err := keyboard.Open()
-	if err != nil {
-		panic(err)
-	}
+	CheckError(err)
 
 	msg := "none"
 
 	defer keyboard.Close()
 	defer conn.Close()
-
-	fmt.Println("Press ESC to quit")
-	for {
+	status := true
+	fmt.Println("ARROW KEYS to move, SPACE to fire, ESC to quit")
+	for status {
 		char, key, err := keyboard.GetKey()
-		if (err != nil) {
-			panic(err)
-		} else if (key == keyboard.KeyEsc) {
-			break
-		} else if (key == keyboard.KeyArrowDown) {
-			msg = "down"
-		} else if (key == keyboard.KeyArrowUp) {
-			msg = "up"
-		} else if (key == keyboard.KeyArrowLeft) {
-			msg = "left"
-		} else if (key == keyboard.KeyArrowRight) {
-			msg = "right"
+		if (!CheckError(err)) {
+			switch key {
+			case keyboard.KeyEsc:
+				msg = "esc"
+				buf := []byte(msg)
+				_, err = conn.Write(buf) // Write a message to the server
+				status = false
+			case keyboard.KeyArrowDown:
+				msg = "down"
+			case keyboard.KeyArrowUp:
+				msg = "up"
+	    case keyboard.KeyArrowLeft:
+				msg = "left"
+			case keyboard.KeyArrowRight:
+				msg = "right"
+			case keyboard.KeySpace:
+				msg = "fire"
+			default:
+				msg = "none"
+			}
 		}
-		fmt.Printf("You pressed: %q\r\n", char)
+		_ = char
+		// fmt.Printf("You pressed: %q\r\n", char)
 
 		buf := []byte(msg)
 		_, err = conn.Write(buf) // Write a message to the server
-		msg = "none"
+		CheckError(err)
 		// listen for reply
 		//allocating memory for each integer
 		n, err := conn.Read(buf2) // Read a message from the server
-		if err != nil {
-			fmt.Println("Error:", err)
-		} else {
+		if (!CheckError(err)) {
 			_ = n
 			fmt.Printf("%s\n", buf2[0:n])
 		}
-
-		if err != nil {
-			fmt.Println(msg, err)
-		}
+		CheckError(err)
 	}
 }

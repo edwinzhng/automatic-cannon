@@ -4,6 +4,7 @@ import picamera
 import requests
 import base64
 import RPi.GPIO as GPIO
+#from server import startServer
 from time import sleep
 from trajectory import calcFinalAngles
 
@@ -54,7 +55,7 @@ class Servo():
 def loop():
 	lock = False
 	while True:
-		new_angle = input("enter angle (-1 to auto target, -2 to lock/fire, -3 to control servoX): ")
+		new_angle = input("enter angle (-1 to auto target, -2 to lock/fire, -3 to control servoX, -4 for remote keyboard control): ")
 		if(new_angle == -1):
 			angles = camera()
 			print("")
@@ -73,6 +74,8 @@ def loop():
 			lock = not lock
 		elif(new_angle == -3):
 			servoX.setAngle(input("servoX angle: "))
+		elif(new_angle == -4):
+			startServer()
 		else:
 			servoY.setAngle(new_angle)
 

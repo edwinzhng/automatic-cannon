@@ -16,5 +16,3 @@ def detectFace():
     print data
 
 detectFace()
-
-
