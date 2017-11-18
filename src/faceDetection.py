@@ -2,8 +2,8 @@ import requests
 import os
 import json
 
-img_height = 720
-img_width = 1280
+img_height = 1080
+img_width = 1920
 
 # make the post request to skybiometry for face detection and return resulting json
 def detectFace():
