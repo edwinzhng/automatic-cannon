@@ -13,7 +13,7 @@ GPIO.setmode(GPIO.BCM)
 
 def camera():
 	camera = picamera.PiCamera()
-	camera.resolution = (1920, 1080)
+	camera.resolution = (1680, 1050)
 	camera.vflip = True
 	camera.capture('../data/data.jpg')
 	camera.close()
@@ -25,7 +25,7 @@ def camera():
 	r = requests.post("http://52.14.199.236/save.php", data={'content': encoded_string})
 	print(r.content)
 	print("calculating trajectory...")
-	return calcFinalAngles()
+	return calcFinalAngles(servoY.angle)
 
 class Servo():
 	def __init__(self, PIN):
@@ -75,9 +75,13 @@ def loop():
 		elif(new_angle == -3):
 			servoX.setAngle(input("servoX angle: "))
 		elif(new_angle == -4):
-			startServer()
+			startServer(servoX, servoY, servoT)
 		else:
-			servoY.setAngle(new_angle)
+			try:
+				servoY.setAngle(new_angle % 90)
+			except TypeError:
+				print("please enter a valid integer: ")
+				continue
 
 
 if __name__ == '__main__':		# Program start from here

@@ -2,15 +2,14 @@ import json
 import math
 import faceDetection as fd
 
-img_width = 1920 # in pixels
-img_height = 1080
+img_width = 1680 # in pixels
+img_height = 1050
 ratio = 760 # ratio needed to get horizontal distance
 average_width = 0.13 # average width of human head
-k = 20 # TODO need to experiment with different masses to find true k
+k = 20 # spring constant
 x = 0.1 # amount that the spring compresses
 mass = 0.005 # mass of the projectile being fired
 viewport_angle = 10 # calculated viewport angle of camera
-angle = 0 # TODO pass angle through from main
 
 def spring_potential(k, x):
     return 0.5*k*x*x
@@ -22,8 +21,7 @@ def calcDistX(coordinates, ratio, average_width):
     return dist_x
 
 # returns vertical distance relative to cannon
-# TODO pass in angle
-def calcDistY(coordinates, dist_x, average_width):
+def calcDistY(coordinates, dist_x, average_width, angle):
     dist_y = math.sin(angle) * dist_x; # calculate vertical height from center of screen
     dist_y += ((img_height / 2) - (coordinates['center']['y'] - 50)) / ratio # account for vertical distance from center of screen
     return dist_y
@@ -66,10 +64,10 @@ def calcAngleX(dist_x, offsetX):
     return 90 + angle_from_center
 
 # Changed function name and return type
-def calcFinalAngles():
+def calcFinalAngles(angle):
     coordinates = fd.getFaceDimensions()
     dist_x = calcDistX(coordinates, ratio, average_width)
-    dist_y = calcDistY(coordinates, dist_x, average_width)
+    dist_y = calcDistY(coordinates, dist_x, average_width, angle)
     offsetX = calcOffsetX(coordinates)
     theta_x = calcAngleX(dist_x, offsetX)
     theta_y = calcAngleY(dist_x, dist_y, mass, k, x)
