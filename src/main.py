@@ -4,7 +4,7 @@ import picamera
 import requests
 import base64
 import RPi.GPIO as GPIO
-#from server import startServer
+from server import startServer
 from time import sleep
 from trajectory import calcFinalAngles
 
