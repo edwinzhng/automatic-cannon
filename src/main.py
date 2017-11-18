@@ -78,7 +78,7 @@ def loop():
 			startServer()
 		else:
 			try:
-				servoY.setAngle(new_angle % 90)
+				servoY.setAngle(new_angle % 91)
 			except TypeError:
 				print("please enter a valid integer: ")
 				continue
