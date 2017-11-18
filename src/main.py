@@ -85,7 +85,7 @@ if __name__ == '__main__':		# Program start from here
 		servoX = Servo(18)
 		servoT = Servo(17)
 		servoY = Servo(23)
-		servoX.setAngle(0)
+		servoX.setAngle(90)
 		servoY.setAngle(0)
 		servoT.setAngle(0)
 		loop()
