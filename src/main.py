@@ -75,7 +75,7 @@ def loop():
 		elif(new_angle == -3):
 			servoX.setAngle(input("servoX angle: "))
 		elif(new_angle == -4):
-			startServer(servoX, servoY, servoT)
+			startServer()
 		else:
 			try:
 				servoY.setAngle(new_angle % 90)

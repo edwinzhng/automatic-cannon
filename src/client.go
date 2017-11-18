@@ -17,7 +17,7 @@ func CheckError(err error) bool {
 
 func main() {
 	// connect to this address
-	addr := "EDWIN-XPS15:12345"
+	addr := "192.168.43.104:12345"
 	conn, _ := net.Dial("tcp", addr)
 	buf2 := make([]byte, 1024)
 	err := keyboard.Open()
