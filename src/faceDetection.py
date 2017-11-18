@@ -14,17 +14,21 @@ def detectFace():
     url = "http://api.skybiometry.com/fc/faces/recognize?namespaces=se101&api_key=" + api_key + "&api_secret=" + api_secret + "&urls=" + img_url + "&uids=derrek@se101,ayush@se101,rollen@se101,derek@se101"
     r = requests.get(url)
     data = json.loads(r.content)
-    user = data[u'photos'][0][u'tags'][0][u'uids'][0][u'uid']
-    confidence =  data[u'photos'][0][u'tags'][0][u'uids'][0][u'confidence']
-    if user == u'rollen@se101':
-        name = "Rollen D'Souza"
-    elif user == u'derek@se101':
-        name = "Derek Rayside"
-    elif user == u'ayush@se101':
-        name = "Ayush Kapur"
-    elif user == u'derrek@se101':
-        name = "Derrek Chow"
-    os.system("say Target Identified, with " + str(confidence) + " percent accuracy. Hello, "  + name)
+    print(data)
+    try:
+        user = data[u'photos'][0][u'tags'][0][u'uids'][0][u'uid']
+        confidence =  data[u'photos'][0][u'tags'][0][u'uids'][0][u'confidence']
+        if user == u'rollen@se101':
+            name = "Rollen D'Souza"
+        elif user == u'derek@se101':
+            name = "Derek Rayside"
+        elif user == u'ayush@se101':
+            name = "Ayush Kapur"
+        elif user == u'derrek@se101':
+            name = "Derrek Chow"
+        os.system("say Target Identified, with " + str(confidence) + " percent accuracy. Hello, "  + name)
+    except:
+        print("No user found")
     return (data[u'photos'][0][u'tags'][0])
 
 # returns {width, height, center: {x,y}} of face in pixels
