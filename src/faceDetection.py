@@ -3,7 +3,7 @@ import os
 import json
 
 img_height = 720
-img_width = 720
+img_width = 1280
 
 # make the post request to skybiometry for face detection and return resulting json
 def detectFace():
@@ -42,4 +42,3 @@ def getFaceDimensions():
     center_y = (details[u'center'][u'y']/100.0)*img_height
 
     return {"width": width, "height": height, "center": {"x": center_x, "y": center_y}}
-

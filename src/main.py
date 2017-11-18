@@ -13,7 +13,7 @@ GPIO.setmode(GPIO.BCM)
 
 def camera():
 	camera = picamera.PiCamera()
-	camera.resolution = (720, 720)
+	camera.resolution = (1280, 720)
 	camera.vflip = True
 	camera.capture('../data/data.jpg')
 	camera.close()

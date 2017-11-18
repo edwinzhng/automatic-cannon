@@ -2,7 +2,7 @@ import json
 import math
 import faceDetection as fd
 
-img_width = 720 # in pixels
+img_width = 1280 # in pixels
 img_height = 720
 ratio = 760 # ratio needed to get horizontal distance
 average_width = 0.13 # average width of human head
