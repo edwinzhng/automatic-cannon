@@ -14,6 +14,7 @@ def detectFace():
     url = "http://api.skybiometry.com/fc/faces/recognize?namespaces=se101&api_key=" + api_key + "&api_secret=" + api_secret + "&urls=" + img_url + "&uids=derrek@se101,ayush@se101,rollen@se101,derek@se101"
     r = requests.get(url)
     data = json.loads(r.content)
+    print(data)
     try:
         user = data[u'photos'][0][u'tags'][0][u'uids'][0][u'uid']
         confidence =  data[u'photos'][0][u'tags'][0][u'uids'][0][u'confidence']
