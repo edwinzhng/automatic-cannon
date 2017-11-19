@@ -23,7 +23,7 @@ def startServer():
         elif data == "left":
             c.send("Moving servoX " + data)
             print(data)
-            servoX.setAngle(ServoX.angle - 5)
+            # servoX.setAngle(ServoX.angle - 5)
         elif data == "right":
             c.send("Moving servoX " + data)
             print(data)
