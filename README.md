@@ -1,3 +1,3 @@
-# Goose Cannon
+# Automatic Cannon
 
-A cannon in the form of a robotic goose, powered by a Raspberry Pi using Python.
+A self-aiming cannon powered by a Raspberry Pi using Python.
