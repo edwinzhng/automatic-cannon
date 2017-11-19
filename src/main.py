@@ -48,11 +48,11 @@ class Servo():
 
 	def lock(self):
 		self.setAngle(0)
-                self.lock = 1
+                self.locked = 1
 
 	def unlock(self):
 		self.setAngle(180)
-                self.lock = 0
+                self.locked = 0
         
         def toggleLock(self):
                 if (self.locked):
