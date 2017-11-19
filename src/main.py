@@ -95,8 +95,8 @@ if __name__ == '__main__':		# Program start from here
 		servoT = Servo(17)
 		servoY = Servo(23)
 		servoX.setAngle(90)
-		servoY.setAngle(45)
-		servoT.lock()
+		servoY.setAngle(30)
+		servoT.unlock()
 		loop()
 	except KeyboardInterrupt:	# When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
 		servoY.stop()

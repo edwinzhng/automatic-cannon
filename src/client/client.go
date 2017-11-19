@@ -24,9 +24,9 @@ func main() {
 	CheckError(err)
 
 	msg := "none"
+	fmt.Println("Connection: ", conn)
 
 	defer keyboard.Close()
-	defer conn.Close()
 	status := true
 	fmt.Println("ARROW KEYS to move, SPACE to fire, ESC to quit")
 	for status {
@@ -67,4 +67,5 @@ func main() {
 		}
 		CheckError(err)
 	}
+	conn.Close()
 }
