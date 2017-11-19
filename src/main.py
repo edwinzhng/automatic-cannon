@@ -34,6 +34,7 @@ class Servo():
 		self.pwm = GPIO.PWM(self.PIN, 50)
 		self.pwm.start(7.5)
 		self.angle = 0
+                self.locked = 0
 
 	def setAngle(self, angle):
 		self.angle = 0.053*angle + 2.2
@@ -47,10 +48,17 @@ class Servo():
 
 	def lock(self):
 		self.setAngle(0)
+                self.lock = 1
 
 	def unlock(self):
 		self.setAngle(180)
-
+                self.lock = 0
+        
+        def toggleLock(self):
+                if (self.locked):
+                    self.unlock()
+                else:
+                    self.lock()
 
 def loop():
 	lock = False
@@ -66,16 +74,10 @@ def loop():
 			servoY.setAngle(angles[1])
 			print("Target locked!")
                         time.sleep(2)
-			servoT.unlock()
+                        servoT.toggleLock()
 			print("Fire!")
 		elif(new_angle == -2):
-			if(lock):
-				servoT.lock()
-				print("Locked")
-			else:
-				servoT.unlock()
-				print("Unlocked")
-			lock = not lock
+                        servoT.toggleLock()
 		elif(new_angle == -3):
 			servoX.setAngle(input("ServoX angle: "))
 		elif(new_angle == -4):
