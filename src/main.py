@@ -15,6 +15,7 @@ def camera():
 	camera = picamera.PiCamera()
 	camera.resolution = (1680, 1050)
 	camera.vflip = True
+        camera.start_preview()
 	camera.capture('../data/data.jpg')
 	camera.close()
 
