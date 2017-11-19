@@ -34,9 +34,8 @@ def startServer(servoX, servoY, servoT):
             servoX.setAngle(currentAngleX + 5)
         elif data == "fire":
             c.send("Firing now!")
-            servoT.lock()
             time.sleep(2)
-            servoT.unlock()
+            servoT.toggleLock()
         elif data == "esc":
             c.send("Closing server, goodbye.")
             print("Exiting manual control")
