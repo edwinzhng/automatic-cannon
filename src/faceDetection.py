@@ -39,7 +39,7 @@ def detectFace():
 def getFaceDimensions():
     details = detectFace()
 
-    if details == 1:
+    if details == -1:
         width = (details[u'width']/100.0)*img_width
         height = (details[u'height']/100.0)*img_height
 
