@@ -25,7 +25,7 @@ def camera():
 	r = requests.post("http://52.14.199.236/save.php", data={'content': encoded_string})
 	print(r.content)
 	print("Calculating trajectory...")
-	return calcFinalAngles(servoY.angle)
+	return calcFinalAngles(((servoY.angle - 2.2) / 0.053))
 
 class Servo():
 	def __init__(self, PIN):
