@@ -1,5 +1,6 @@
 from PIL import Image
 import picamera
+import time
 import requests
 import base64
 import RPi.GPIO as GPIO
@@ -63,6 +64,14 @@ def loop():
 			servoX.setAngle(angles[0])
 			servoY.setAngle(angles[1])
 			print("Target locked!")
+                        time.sleep(2)
+			if(lock):
+				servoT.unlock()
+			else:
+				servoT.lock()
+				print("Locked")
+                                servoT.unlock()
+			print("Fire!")
 		elif(new_angle == -2):
 			if(lock):
 				servoT.lock()
