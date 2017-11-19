@@ -14,22 +14,24 @@ def startServer(servoX, servoY, servoT):
 
     while True:
         data = c.recv(port)
+        currentAngleX = (servoX.angle - 2.2) / 0.053
+        currentAngleY = (servoY.angle - 2.2) / 0.053
         if data == "down":
             c.send("Moving servoY " + data)
             print(data)
-            servoY.adjustAngle(-5)
+            servoY.setAngle(currentAngleY - 5)
         elif data == "up":
             c.send("Moving servoY " + data)
             print(data)
-            servoY.adjustAngle(5)
+            servoY.setAngle(currentAngleY + 5)
         elif data == "left":
             c.send("Moving servoX " + data)
             print(data)
-            servoX.adjustAngle(-5)
+            servoX.setAngle(currentAngleX - 5)
         elif data == "right":
             c.send("Moving servoX " + data)
             print(data)
-            servoX.adjustAngle(5)
+            servoX.setAngle(currentAngleX + 5)
         elif data == "fire":
             c.send("Firing now!")
             servoT.lock()
