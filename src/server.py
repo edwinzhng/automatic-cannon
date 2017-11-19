@@ -1,4 +1,5 @@
 import socket
+import time
 
 def startServer(servoX, servoY, servoT):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -6,7 +7,7 @@ def startServer(servoX, servoY, servoT):
     port = 12345
     s.bind((host, port))
 
-    print
+    print("Starting server...")
     s.listen(5)
     c, addr = s.accept()
     print("Got connection from", addr)
@@ -16,22 +17,24 @@ def startServer(servoX, servoY, servoT):
         if data == "down":
             c.send("Moving servoY " + data)
             print(data)
-            servoY.setAngle(servoY.angle - 5)
+            servoY.adjustAngle(-5)
         elif data == "up":
             c.send("Moving servoY " + data)
             print(data)
-            servoY.setAngle(servoY.angle + 5)
+            servoY.adjustAngle(5)
         elif data == "left":
             c.send("Moving servoX " + data)
             print(data)
-            servoX.setAngle(servoX.angle - 5)
+            servoX.adjustAngle(-5)
         elif data == "right":
             c.send("Moving servoX " + data)
             print(data)
-            servoX.setAngle(servoX.angle + 5)
+            servoX.adjustAngle(5)
         elif data == "fire":
             c.send("Firing now!")
             servoT.lock()
+            time.sleep(2)
+            servoT.unlock()
         elif data == "esc":
             c.send("Closing server, goodbye.")
             print("Exiting manual control")
