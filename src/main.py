@@ -21,10 +21,10 @@ def camera():
 	with open("../data/data.jpg", "rb") as image_file:
 		encoded_string = base64.b64encode(image_file.read())
 
-	print("imaged captured, sending to server...")
+	print("Image captured, sending to server...")
 	r = requests.post("http://52.14.199.236/save.php", data={'content': encoded_string})
 	print(r.content)
-	print("calculating trajectory...")
+	print("Calculating trajectory...")
 	return calcFinalAngles(servoY.angle)
 
 class Servo():
@@ -55,32 +55,33 @@ class Servo():
 def loop():
 	lock = False
 	while True:
-		new_angle = input("enter angle (-1 to auto target, -2 to lock/fire, -3 to control servoX, -4 for remote keyboard control): ")
+		new_angle = input("Enter angle (-1 to auto target, -2 to lock/fire, -3 to control servoX, -4 for remote keyboard control): ")
 		if(new_angle == -1):
 			angles = camera()
 			print("")
-			print("angleX: ", angles[0])
-			print("angleY: ", angles[1])
+			print("AngleX: ", angles[0])
+			print("AngleY: ", angles[1])
 			servoX.setAngle(angles[0])
 			servoY.setAngle(angles[1])
-			print("target locked")
+			print("Target locked!")
 		elif(new_angle == -2):
 			if(lock):
 				servoT.lock()
-				print("locked")
+				print("Locked")
 			else:
 				servoT.unlock()
-				print("unlocked")
+				print("Unlocked")
 			lock = not lock
 		elif(new_angle == -3):
-			servoX.setAngle(input("servoX angle: "))
+			servoX.setAngle(input("ServoX angle: "))
 		elif(new_angle == -4):
 			startServer()
 		else:
 			try:
-				servoY.setAngle(new_angle % 91)
-			except TypeError:
-				print("please enter a valid integer: ")
+				val = int(new_angle)
+				servoY.setAngle(val % 91)
+			except ValueError:
+				print("Please enter a valid integer!")
 				continue
 
 
