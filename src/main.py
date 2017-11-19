@@ -58,6 +58,7 @@ def loop():
 		new_angle = input("Enter angle (-1 to auto target, -2 to lock/fire, -3 to control servoX, -4 for remote keyboard control): ")
 		if(new_angle == -1):
 			angles = camera()
+                        servoT.lock()
 			print("")
 			print("AngleX: ", angles[0])
 			print("AngleY: ", angles[1])
@@ -65,12 +66,7 @@ def loop():
 			servoY.setAngle(angles[1])
 			print("Target locked!")
                         time.sleep(2)
-			if(lock):
-				servoT.unlock()
-			else:
-				servoT.lock()
-				print("Locked")
-                                servoT.unlock()
+			servoT.unlock()
 			print("Fire!")
 		elif(new_angle == -2):
 			if(lock):
