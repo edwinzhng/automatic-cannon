@@ -31,6 +31,7 @@ def detectFace():
         print("No user found")
     if (len(data[u'photos'][0][u'tags']) == 0){
         print("Error: No face detected")
+        return -1
     }
     return (data[u'photos'][0][u'tags'][0])
 
@@ -38,10 +39,17 @@ def detectFace():
 def getFaceDimensions():
     details = detectFace()
 
-    width = (details[u'width']/100.0)*img_width
-    height = (details[u'height']/100.0)*img_height
+    if details == 1:
+        width = (details[u'width']/100.0)*img_width
+        height = (details[u'height']/100.0)*img_height
 
-    center_x = (details[u'center'][u'x']/100.0)*img_width
-    center_y = (details[u'center'][u'y']/100.0)*img_height
+        center_x = (details[u'center'][u'x']/100.0)*img_width
+        center_y = (details[u'center'][u'y']/100.0)*img_height
+    else:
+        width = img_width
+        height = img_height
+
+        center_x = img_width/2
+        center_y = img_height/2
 
     return {"width": width, "height": height, "center": {"x": center_x, "y": center_y}}
