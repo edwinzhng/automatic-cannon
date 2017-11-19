@@ -29,6 +29,9 @@ def detectFace():
         os.system("say Target Identified, with " + str(confidence) + " percent accuracy. Hello, "  + name)
     except:
         print("No user found")
+    if (len(data[u'photos'][0][u'tags']) == 0){
+        print("Error: No face detected")
+    }
     return (data[u'photos'][0][u'tags'][0])
 
 # returns {width, height, center: {x,y}} of face in pixels
