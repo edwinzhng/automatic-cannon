@@ -2,7 +2,7 @@ import socket
 
 def startServer(servoX, servoY, servoT):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    host = "192.169.43.104"
+    host = "192.168.43.104"
     port = 12345
     s.bind((host, port))
 
