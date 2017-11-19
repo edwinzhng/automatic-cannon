@@ -1,6 +1,6 @@
 import socket
 
-def startServer():
+def startServer(servoX, servoY, servoT):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     host = "192.169.43.104"
     port = 12345
@@ -16,22 +16,22 @@ def startServer():
         if data == "down":
             c.send("Moving servoY " + data)
             print(data)
-            #servoY.setAngle(ServoY.angle - 5)
+            servoY.setAngle(servoY.angle - 5)
         elif data == "up":
             c.send("Moving servoY " + data)
             print(data)
-            #servoY.setAngle(ServoY.angle + 5)
+            servoY.setAngle(servoY.angle + 5)
         elif data == "left":
             c.send("Moving servoX " + data)
             print(data)
-            # servoX.setAngle(ServoX.angle - 5)
+            servoX.setAngle(servoX.angle - 5)
         elif data == "right":
             c.send("Moving servoX " + data)
             print(data)
-            #servoX.setAngle(ServoX.angle + 5)
+            servoX.setAngle(servoX.angle + 5)
         elif data == "fire":
             c.send("Firing now!")
-            #servoT.unlock()
+            servoT.lock()
         elif data == "esc":
             c.send("Closing server, goodbye.")
             print("Exiting manual control")
