@@ -5,4 +5,4 @@
 * Recognizes and finds bounding boxes of faces using the Skybiometry API
 * Manual control through remote keyboard input
 
-![Cannon Firing](https://github.com/edwinzhng/automatic-cannon/tree/master/data/cannon.gif)
+![Demo](https://user-images.githubusercontent.com/21136804/33001215-69c3d17a-cd7a-11e7-8b34-972e37abeb4b.gif)
