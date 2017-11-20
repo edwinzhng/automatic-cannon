@@ -75,6 +75,7 @@ def calcFinalAngles(angle):
 
 
 # testing purposes
+'''
 def main():
     coordinates = fd.getFaceDimensions()
     print(str(coordinates['width']) + ' - width')
@@ -88,3 +89,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+'''
