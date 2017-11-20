@@ -1,32 +1,23 @@
 import json
 import math
 import faceDetection as fd
-
-# static variables
-img_width = 1680      # image width in pixels
-img_height = 1050     # image height in pixels
-ratio = 760           # ratio of pixels to m needed for horizontal distance
-average_width = 0.13  # average width of human head
-k = 30                # experimental spring constant
-x = 0.07              # amount that the spring compresses
-mass = 0.005          # mass of the projectile being fired
+import constants as c
 
 # returns spring potential energy
 def spring_potential(k, x):
     return 0.5*k*x*x
 
-
-# calculates horizontal distance from camera based on ratio obtained from
+# calculates horizontal distance from camera based on c.ratio obtained from
 # testing and using average width of a known object
 def calcDistX(coordinates, ratio, average_width):
-    dist_x = (average_width * ratio) / coordinates['width'] # horizontal distance = known width * ratio / pixel width
+    dist_x = (c.average_width * c.ratio) / coordinates['width'] # horizontal distance = known width * ratio / pixel width
     return dist_x
 
 
 # returns vertical distance relative to cannon
 def calcDistY(coordinates, dist_x, average_width, angle):
     dist_y = math.sin(angle) * dist_x; # calculate vertical height from center of screen
-    dist_y += ((img_height / 2) - (coordinates['center']['y'] - 50)) / ratio # account for vertical distance from center of screen
+    dist_y += ((c.img_height / 2) - (coordinates['center']['y'] - 50)) / c.ratio # account for vertical distance from center of screen
     return dist_y
 
 
@@ -37,14 +28,13 @@ def calcAngleY(dist_x, dist_y, mass, k, x):
     eps = spring_potential(k, x)
     v_i = math.sqrt(2*eps/mass)
     print(str(v_i) + ' - vi')
-    g = 9.81
 
-    discriminant = (math.pow(v_i, 4)-(g*(g*dist_x*dist_x+2*dist_y*v_i*v_i)))
+    discriminant = (math.pow(v_i, 4)-(c.g*(c.g*dist_x*dist_x+2*dist_y*v_i*v_i)))
     if discriminant < 0:
         return -1
 
-    theta1 = math.atan((v_i*v_i + math.sqrt(discriminant)) / (g * x)) * 180 / math.pi
-    theta2 = math.atan((v_i*v_i - math.sqrt(discriminant)) / (g * x)) * 180 / math.pi
+    theta1 = math.atan((v_i*v_i + math.sqrt(discriminant)) / (c.g * x)) * 180 / math.pi
+    theta2 = math.atan((v_i*v_i - math.sqrt(discriminant)) / (c.g * x)) * 180 / math.pi
     # print(str(theta1) + " - theta1")
     # print(str(theta2) + " - theta2")
 
@@ -63,9 +53,8 @@ def calcAngleY(dist_x, dist_y, mass, k, x):
 # returns how far from the center the face is (horizontally)
 # positive value means too far right, negative means too far left
 def calcOffsetX(coordinates):
-    metersPerPixel = average_width / coordinates['width']
-    return (coordinates['center']['x'] - img_width/2.0) * metersPerPixel
-
+    metersPerPixel = c.average_width / coordinates['width']
+    return (coordinates['center']['x'] - c.img_width/2.0) * metersPerPixel
 
 # return the angle needed to move horizontally, assuming 0 is
 # when the cannon is horizontally facing left and rotates clockwise
@@ -77,25 +66,27 @@ def calcAngleX(dist_x, offsetX):
 # returns final results for horizontal and vertial angles from image
 def calcFinalAngles(angle):
     coordinates = fd.getFaceDimensions()
-    dist_x = calcDistX(coordinates, ratio, average_width)
-    dist_y = calcDistY(coordinates, dist_x, average_width, angle)
+    dist_x = calcDistX(coordinates, c.ratio, c.average_width)
+    dist_y = calcDistY(coordinates, dist_x, c.average_width, angle)
     offsetX = calcOffsetX(coordinates)
     theta_x = calcAngleX(dist_x, offsetX)
-    theta_y = calcAngleY(dist_x, dist_y, mass, k, x)
+    theta_y = calcAngleY(dist_x, dist_y, c.mass, c.k, c.x)
     return [round(theta_x), round(theta_y)]
 
 
 # testing purposes
-'''def main():
+'''
+def main():
     coordinates = fd.getFaceDimensions()
     print(str(coordinates['width']) + ' - width')
-    dist_x = calcDistX(coordinates, ratio, average_width)
+    dist_x = calcDistX(coordinates, c.ratio, c.average_width)
     print (str(dist_x) + ' - horizontal distance')
-    dist_y = calcDistY(coordinates, dist_x, average_width)
+    dist_y = calcDistY(coordinates, dist_x, c.average_width, 45)
     print (str(dist_y) + ' - vertical distance')
-    theta = calcFinalAngles()
+    theta = calcFinalAngles(45)
     print theta[0], theta[1]
     return theta
 
 if __name__ == '__main__':
-    main()'''
+    main()
+'''
