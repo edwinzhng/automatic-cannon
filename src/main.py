@@ -28,6 +28,8 @@ def camera():
 	print("Calculating trajectory...")
 	return calcFinalAngles(((servoY.angle - 2.2) / 0.053))
 
+
+# servo definition with functions
 class Servo():
 	def __init__(self, PIN):
 		self.PIN = PIN
@@ -35,32 +37,40 @@ class Servo():
 		self.pwm = GPIO.PWM(self.PIN, 50)
 		self.pwm.start(7.5)
 		self.angle = 0
-                self.locked = 0
+                self.locked = False
 
+	# set servo to specific angle
 	def setAngle(self, angle):
 		self.angle = 0.053*angle + 2.2
 		self.pwm.ChangeDutyCycle(self.angle)
 
+    # adjust angle of servo
 	def adjustAngle(self, angle):
 		self.setAngle(self.angle + angle)
 
+    # stop servo
 	def stop(self):
 		self.pwm.stop()
 
+    # lock servo and fire
 	def lock(self):
 		self.setAngle(0)
                 self.locked = 1
 
+	# unlock servo to be ready to fire
 	def unlock(self):
 		self.setAngle(180)
+                self.lock = 0
                 self.locked = 0
-        
+
         def toggleLock(self):
                 if (self.locked):
                     self.unlock()
                 else:
                     self.lock()
 
+
+# loop options
 def loop():
 	lock = False
 	while True:
@@ -71,6 +81,9 @@ def loop():
 			print("")
 			print("AngleX: ", angles[0])
 			print("AngleY: ", angles[1])
+			if angles[1] == -1:
+				print("Target is too far away!")
+				continue
 			servoX.setAngle(angles[0])
 			servoY.setAngle(angles[1])
 			print("Target locked!")
@@ -86,13 +99,14 @@ def loop():
 		else:
 			try:
 				val = int(new_angle)
-				servoY.setAngle(val % 91)
+				servoY.setAngle(val % 91) # set as input angle mod 91
 			except ValueError:
 				print("Please enter a valid integer!")
 				continue
 
 
-if __name__ == '__main__':		# Program start from here
+# start program
+if __name__ == '__main__':
 	try:
 		servoX = Servo(18)
 		servoT = Servo(17)
@@ -101,6 +115,6 @@ if __name__ == '__main__':		# Program start from here
 		servoY.setAngle(30)
 		servoT.unlock()
 		loop()
-	except KeyboardInterrupt:	# When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
+	except KeyboardInterrupt:	# exit loop when 'Ctrl+C' is pressed
 		servoY.stop()
 		GPIO.cleanup()

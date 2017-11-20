@@ -1,6 +1,7 @@
 import socket
 import time
 
+# start listening at port 12345 on the Raspberry Pi for manual controls
 def startServer(servoX, servoY, servoT):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     host = "192.168.43.104"
@@ -12,6 +13,7 @@ def startServer(servoX, servoY, servoT):
     c, addr = s.accept()
     print("Got connection from", addr)
 
+    # loop controls until exited by user
     while True:
         data = c.recv(port)
         currentAngleX = (servoX.angle - 2.2) / 0.053
@@ -33,11 +35,21 @@ def startServer(servoX, servoY, servoT):
             print(data)
             servoX.setAngle(currentAngleX + 5)
         elif data == "fire":
-            c.send("Firing now!")
-            time.sleep(2)
+            if servoT.locked:
+                print("reloading")
+                c.send("Readying cannon!")
+                servoT.locked = False
+            else:
+                print("firing")
+                c.send("Firing now!")
+                servoT.locked = True
             servoT.toggleLock()
         elif data == "esc":
             c.send("Closing server, goodbye.")
             print("Exiting manual control")
             break;
+        else:
+            print("none")
+            c.send("No input")
+
     s.close()
