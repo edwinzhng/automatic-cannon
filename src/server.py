@@ -5,8 +5,6 @@ import constants as c
 # start listening at port 12345 on the Raspberry Pi for manual controls
 def startServer(servoX, servoY, servoT):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    host = "192.168.43.104"
-    port = 12345
     s.bind((c.host, c.port))
 
     print("Starting server...")
