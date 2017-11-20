@@ -1,12 +1,13 @@
 import socket
 import time
+import constants as c
 
 # start listening at port 12345 on the Raspberry Pi for manual controls
 def startServer(servoX, servoY, servoT):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     host = "192.168.43.104"
     port = 12345
-    s.bind((host, port))
+    s.bind((c.host, c.port))
 
     print("Starting server...")
     s.listen(5)
@@ -15,7 +16,7 @@ def startServer(servoX, servoY, servoT):
 
     # loop controls until exited by user
     while True:
-        data = c.recv(port)
+        data = c.recv(c.port)
         currentAngleX = (servoX.angle - 2.2) / 0.053
         currentAngleY = (servoY.angle - 2.2) / 0.053
         if data == "down":

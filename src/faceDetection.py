@@ -4,19 +4,16 @@
 import requests
 import os
 import json
-
-img_height = 1050
-img_width = 1680
+import constants as c
 
 # make the post request to skybiometry for face detection and return resulting json
 def detectFace():
-    # details
-    api_key = "n3vg0dfc4j42o0ap4b54mm0msg"
-    api_secret = "l20v0d9j4a7bnb7lqcqps7rddm"
-    img_url = "http://52.14.199.236/data.jpg" #AWS IP
-
     # prepare the payload
-    url = "http://api.skybiometry.com/fc/faces/recognize?namespaces=se101&api_key=" + api_key + "&api_secret=" + api_secret + "&urls=" + img_url + "&uids=derrek@se101,ayush@se101,rollen@se101,derek@se101"
+    url = "http://api.skybiometry.com/fc/faces/recognize?namespaces=se101"
+    url += "&api_key=" + c.api_key 
+    url += "&api_secret=" + c.api_secret
+    url += "&urls=" + c.img_url
+    url += "&uids=" + "derrek@se101,ayush@se101,rollen@se101,derek@se101"
 
     # make the request
     r = requests.get(url)
@@ -51,17 +48,18 @@ def getFaceDimensions():
 
     if details != -1:
         # no error - return face coordinates in pixels
-        width = (details[u'width']/100.0)*img_width
-        height = (details[u'height']/100.0)*img_height
+        width = (details[u'width']/100.0)*c.img_width
+        height = (details[u'height']/100.0)*c.img_height
 
-        center_x = (details[u'center'][u'x']/100.0)*img_width
-        center_y = (details[u'center'][u'y']/100.0)*img_height
+        center_x = (details[u'center'][u'x']/100.0)*c.img_width
+        center_y = (details[u'center'][u'y']/100.0)*c.img_height
     else:
         # error (no face detected) - return center of screen
-        width = img_width
-        height = img_height
+        width = c.img_width
+        height = c.img_height
 
-        center_x = img_width/2
-        center_y = img_height/2
+        center_x = c.img_width/2
+        center_y = c.img_height/2
 
     return {"width": width, "height": height, "center": {"x": center_x, "y": center_y}}
+
