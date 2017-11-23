@@ -5,4 +5,4 @@
 * Recognizes and finds bounding boxes of faces using the Skybiometry API
 * Manual control through remote keyboard input
 
-![Demo](https://user-images.githubusercontent.com/21136804/33001215-69c3d17a-cd7a-11e7-8b34-972e37abeb4b.gif)
+![Demo](https://user-images.githubusercontent.com/21136804/33001215-69c3d17a-cd7a-11e7-8b34-972e37abeb4b.gif) ![Demo 2](https://user-images.githubusercontent.com/21136804/33160095-75783c58-cfe7-11e7-9911-ccce9f711f22.gif)
