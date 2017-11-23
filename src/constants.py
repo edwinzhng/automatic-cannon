@@ -12,7 +12,7 @@ img_url = "http://52.14.199.236/data.jpg" #AWS IP
 # Trajectory calculation constants
 ratio = 760           # ratio of pixels to m needed for horizontal distance
 average_width = 0.13  # average width of human head
-k = 30                # experimental spring constant
+k = 75                # experimental spring constant
 x = 0.07              # amount that the spring compresses
 mass = 0.005          # mass of the projectile being fired
 g = 9.81

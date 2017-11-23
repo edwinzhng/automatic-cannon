@@ -18,15 +18,15 @@ class Servo():
 		self.angle = 0.053*angle + 2.2
 		self.pwm.ChangeDutyCycle(self.angle)
 
-    # adjust angle of servo
+	# adjust angle of servo
 	def adjustAngle(self, angle):
 		self.setAngle(self.angle + angle)
 
-    # stop servo
+        # stop servo
 	def stop(self):
 		self.pwm.stop()
 
-    # lock servo and fire
+        # lock servo and fire
 	def lock(self):
 		self.setAngle(0)
                 self.locked = 1
@@ -34,9 +34,9 @@ class Servo():
 	# unlock servo to be ready to fire
 	def unlock(self):
 		self.setAngle(180)
-                self.lock = 0
                 self.locked = 0
-
+	
+	# toggle locked position
         def toggleLock(self):
                 if (self.locked):
                     self.unlock()

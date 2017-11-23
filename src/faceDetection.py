@@ -32,7 +32,7 @@ def detectFace():
             name = "Ayush Kapur"
         elif user == u'derrek@se101':
             name = "Derrek Chow"
-        os.system("say Target Identified, with " + str(confidence) + " percent accuracy. Hello, "  + name)
+        os.system("espeak \"Target Identified, with " + str(confidence) + " percent accuracy. Hello, "  + name + "\"")
     except:
         print("No user found")
     

@@ -1,5 +1,6 @@
 from PIL import Image
 import picamera
+import os
 import time
 import requests
 import base64
@@ -16,16 +17,14 @@ def camera():
 	camera = picamera.PiCamera()
 	camera.resolution = (1680, 1050)
 	camera.vflip = True
-        camera.start_preview()
 	camera.capture('../data/data.jpg')
 	camera.close()
-
 	with open("../data/data.jpg", "rb") as image_file:
 		encoded_string = base64.b64encode(image_file.read())
 
 	print("Image captured, sending to server...")
 	r = requests.post("http://52.14.199.236/save.php", data={'content': encoded_string})
-	print(r.content)
+	# print(r.content)
 	print("Calculating trajectory...")
 	return calcFinalAngles(((servoY.angle - 2.2) / 0.053))
 
@@ -35,8 +34,8 @@ def loop():
 	while True:
 		new_angle = input("Enter angle (-1 to auto target, -2 to lock/fire, -3 to control servoX, -4 for remote keyboard control): ")
 		if(new_angle == -1):
+			servoT.unlock()
 			angles = camera()
-                        servoT.lock()
 			print("")
 			print("AngleX: ", angles[0])
 			print("AngleY: ", angles[1])
@@ -46,7 +45,7 @@ def loop():
 			servoX.setAngle(angles[0])
 			servoY.setAngle(angles[1])
 			print("Target locked!")
-                        time.sleep(2)
+                        os.system("espeak \"Firing in 3, 2, 1\"")
                         servoT.toggleLock()
 			print("Fire!")
 		elif(new_angle == -2):
@@ -71,7 +70,7 @@ if __name__ == '__main__':
 		servoT = Servo(17)
 		servoY = Servo(23)
 		servoX.setAngle(90)
-		servoY.setAngle(30)
+		servoY.setAngle(10)
 		servoT.unlock()
 		loop()
 	except KeyboardInterrupt:	# exit loop when 'Ctrl+C' is pressed

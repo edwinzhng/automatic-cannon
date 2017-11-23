@@ -45,8 +45,8 @@ def calcAngleY(dist_x, dist_y, mass, k, x):
         if theta2 < 0:
             theta = -theta
         if theta > 45:
-            theta = 90 - theta
-
+            theta = 90 - theta + 20
+		
     return theta
 
 
@@ -54,13 +54,15 @@ def calcAngleY(dist_x, dist_y, mass, k, x):
 # positive value means too far right, negative means too far left
 def calcOffsetX(coordinates):
     metersPerPixel = c.average_width / coordinates['width']
-    return (coordinates['center']['x'] - c.img_width/2.0) * metersPerPixel
+    return ((coordinates['center']['x'] - c.img_width/2.0) * metersPerPixel)
 
 # return the angle needed to move horizontally, assuming 0 is
 # when the cannon is horizontally facing left and rotates clockwise
 def calcAngleX(dist_x, offsetX):
     angle_from_center = math.atan(-offsetX/dist_x)*180/math.pi
-    return 90 + angle_from_center
+    if angle_from_center < 0:
+	angle_from_center += 15
+    return 90 + angle_from_center 
 
 
 # returns final results for horizontal and vertial angles from image

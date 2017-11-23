@@ -37,12 +37,13 @@ def startServer(servoX, servoY, servoT):
             if servoT.locked:
                 print("reloading")
                 conn.send("Readying cannon!")
+		servoT.toggleLock()
                 servoT.locked = False
             else:
                 print("firing")
                 conn.send("Firing now!")
+		servoT.toggleLock()
                 servoT.locked = True
-            servoT.toggleLock()
         elif data == "esc":
             conn.send("Closing server, goodbye.")
             print("Exiting manual control")
